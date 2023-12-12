@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Transform for assignment graded event.
+ * Transform for lesson ended event.
  *
  * @package   logstore_xapi
  * @copyright Jerret Fowler <jerrett.fowler@gmail.com>
@@ -29,7 +29,7 @@ namespace src\transformer\events\mod_lesson;
 use src\transformer\utils as utils;
 
 /**
- * Transformer for the assignment graded event.
+ * Transformer for the lesson ended event.
  *
  * @param array $config The transformer config settings.
  * @param \stdClass $event The event to be transformed.
