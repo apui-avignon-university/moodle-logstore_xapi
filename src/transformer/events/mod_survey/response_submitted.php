@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Transform for the data record created event.
+ * Transform for the survey response submitted event.
  *
  * @package   logstore_xapi
  * @copyright Jerret Fowler <jerrett.fowler@gmail.com>
@@ -29,7 +29,7 @@ namespace src\transformer\events\mod_survey;
 use src\transformer\utils as utils;
 
 /**
- * Transformer for surver reponse submitted event.
+ * Transformer for survey reponse submitted event.
  *
  * @param array $config The transformer config settings.
  * @param \stdClass $event The event to be transformed.
