@@ -1,0 +1,51 @@
+{
+    "user": [
+        {
+            "id": 1,
+            "firstname": "test_fullname",
+            "email": "test@test.com"
+        }
+    ],
+    "course": [
+        {
+            "id": 1,
+            "fullname": "test_name",
+            "lang": "en"
+        }
+    ],
+    "course_modules": [
+        {
+            "id": 1,
+            "course": 1,
+            "module": 1,
+            "instance": 1
+        }
+    ],
+    "modules": [
+        {
+            "id": 1,
+            "name": "choice"
+        }
+    ],
+    "choice": [
+        {
+            "id": 1,
+            "name": "test_name",
+            "optionid": 1
+        }
+    ],
+    "choice_answers": [
+        {
+            "id": 1,
+            "name": "test_name",
+            "choiceid": 1,
+            "optionid": 1
+        }
+    ],
+    "choice_options": [
+        {
+            "id": 1,
+            "text": "test_name"
+        }
+    ]
+}
