@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Transform for the feedback item answered (multichoice) event.
+ * Transform for the data record created event.
  *
  * @package   logstore_xapi
  * @copyright Jerret Fowler <jerrett.fowler@gmail.com>
@@ -24,54 +24,35 @@
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace src\transformer\events\mod_feedback\item_answered;
+namespace src\transformer\events\mod_wiki;
 
 use src\transformer\utils as utils;
 
 /**
- * Transformer for the mod_feedback item answered event.
+ * Transformer for wiki page created event.
  *
  * @param array $config The transformer config settings.
  * @param \stdClass $event The event to be transformed.
- * @param \stdClass $feedbackvalue The value of the feedback type.
- * @param \stdClass $feedbackitem The id of the feedback item.
  * @return array
  */
-function multichoice(array $config, \stdClass $event, \stdClass $feedbackvalue, \stdClass $feedbackitem) {
+function page_updated(array $config, \stdClass $event) {
     $repo = $config['repo'];
     $user = $repo->read_record_by_id('user', $event->userid);
     $course = $repo->read_record_by_id('course', $event->courseid);
-    $feedback = $repo->read_record_by_id('feedback', $feedbackitem->feedback);
+    $page = $repo->read_record_by_id('wiki_pages', $event->objectid);
+    $subwiki = $repo->read_record_by_id('wiki_subwikis', $page->subwikiid);
     $lang = utils\get_course_lang($course);
-    $choices = explode("\n|", substr($feedbackitem->presentation, 6));
-    $selectedchoice = $choices[intval($feedbackvalue->value) - 1];
 
-    return [[
+    return[[
         'actor' => utils\get_user($config, $user),
         'verb' => [
-            'id' => 'http://adlnet.gov/expapi/verbs/answered',
+            'id' => 'http://activitystrea.ms/schema/1.0/update',
             'display' => [
-                $lang => 'answered'
+                $lang => 'updated'
             ],
         ],
-        'object' => [
-            'id' => $config['app_url'].'/mod/feedback/edit_item.php?id='.$feedbackitem->id,
-            'definition' => [
-                'type' => 'http://adlnet.gov/expapi/activities/cmi.interaction',
-                'name' => [
-                    $lang => $feedbackitem->name,
-                ],
-                'interactionType' => 'choice',
-            ],
-        ],
+        'object' => utils\get_activity\wiki_page_update($config, $course, $page, $subwiki),
         'timestamp' => utils\get_event_timestamp($event),
-        'result' => [
-            // 'response' => $selectedchoice,
-            'completion' => $feedbackvalue->value !== '',
-            "extensions" => [
-                "http://learninglocker.net/xapi/cmi/choice/response" => $selectedchoice,
-            ],
-        ],
         'context' => [
             'platform' => $config['source_name'],
             'language' => $lang,
@@ -80,7 +61,7 @@ function multichoice(array $config, \stdClass $event, \stdClass $feedbackvalue, 
                 'grouping' => [
                     utils\get_activity\site($config),
                     utils\get_activity\course($config, $course),
-                    utils\get_activity\course_feedback($config, $course, $event->contextinstanceid),
+                    utils\get_activity\course_wiki($config, $course, $event->contextinstanceid),
                 ],
                 'category' => [
                     utils\get_activity\source($config),

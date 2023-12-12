@@ -44,8 +44,8 @@ function handler(array $config, \stdClass $event) {
 
     return array_merge(
         attempt_submitted($config, $event),
-        array_reduce($questionattempts, function ($result, $questionattempt) use ($config, $event) {
-            return array_merge($result, question_answered\handler($config, $event, $questionattempt));
-        }, [])
+        // array_reduce($questionattempts, function ($result, $questionattempt) use ($config, $event) {
+        //     return array_merge($result, question_answered\handler($config, $event, $questionattempt));
+        // }, [])
     );
 }

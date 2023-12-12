@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generic feedback handler for the response_submitted event.
+ * Transformer utility for retrieving (choice answer) activities.
  *
  * @package   logstore_xapi
  * @copyright Jerret Fowler <jerrett.fowler@gmail.com>
@@ -24,28 +24,20 @@
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace src\transformer\events\mod_feedback\response_submitted;
+namespace src\transformer\utils\get_activity;
 
 use src\transformer\utils as utils;
-use src\transformer\events\mod_feedback\item_answered as item_answered;
 
 /**
- * Generic handler for the mod_feedback response submitted event.
+ * Transformer utility for retrieving (survey answer) activities.
  *
  * @param array $config The transformer config settings.
- * @param \stdClass $event The event to be transformed.
- * @return array
+ * @param \stdClass $post The survey answer.
+ * @return string
  */
-function handler(array $config, \stdClass $event) {
+function survey_answer(array $config, \stdClass $answer) {
     $repo = $config['repo'];
-    $feedbackvalues = $repo->read_records('feedback_value', [
-        'completed' => $event->objectid
-    ]);
+    $options = $repo->read_record_by_id('choice_options', $answer->optionid);
 
-    return array_merge(
-        response_submitted($config, $event),
-        // array_reduce($feedbackvalues, function ($result, $feedbackvalue) use ($config, $event) {
-        //     return array_merge($result, item_answered\handler($config, $event, $feedbackvalue));
-        // }, [])
-    );
+    return utils\get_string_html_removed($options->text);
 }

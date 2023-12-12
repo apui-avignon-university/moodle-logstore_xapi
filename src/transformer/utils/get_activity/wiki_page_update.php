@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generic feedback handler for the response_submitted event.
+ * Transformer utility for retrieving (course discussion) activities.
  *
  * @package   logstore_xapi
  * @copyright Jerret Fowler <jerrett.fowler@gmail.com>
@@ -24,28 +24,31 @@
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace src\transformer\events\mod_feedback\response_submitted;
+namespace src\transformer\utils\get_activity;
 
 use src\transformer\utils as utils;
-use src\transformer\events\mod_feedback\item_answered as item_answered;
 
 /**
- * Generic handler for the mod_feedback response submitted event.
+ * Transformer utility for retrieving (wiki page) activities.
  *
  * @param array $config The transformer config settings.
- * @param \stdClass $event The event to be transformed.
+ * @param \stdClass $course The course object.
+ * @param \stdClass $discussion The discussion object.
  * @return array
  */
-function handler(array $config, \stdClass $event) {
-    $repo = $config['repo'];
-    $feedbackvalues = $repo->read_records('feedback_value', [
-        'completed' => $event->objectid
-    ]);
+function wiki_page_update(array $config, \stdClass $course, \stdClass $page, \stdClass $subwiki) {
+    $courselang = utils\get_course_lang($course);
+    $pageurl = $config['app_url'].'/mod/wiki/view.php?id='.$page->id.'&group='.$subwiki->id;
+    $pagetitle = property_exists($page, 'title') ? $page->title : 'Title';
 
-    return array_merge(
-        response_submitted($config, $event),
-        // array_reduce($feedbackvalues, function ($result, $feedbackvalue) use ($config, $event) {
-        //     return array_merge($result, item_answered\handler($config, $event, $feedbackvalue));
-        // }, [])
-    );
+
+    return [
+        'id' => $pageurl,
+        'definition' => [
+            'type' => 'http://activitystrea.ms/schema/1.0/page',
+            'name' => [
+                $courselang => $pagetitle,
+            ],
+        ],
+    ];
 }

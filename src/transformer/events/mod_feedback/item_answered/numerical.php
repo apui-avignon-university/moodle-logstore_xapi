@@ -64,7 +64,7 @@ function numerical(array $config, \stdClass $event, \stdClass $feedbackvalue, \s
         ],
         'timestamp' => utils\get_event_timestamp($event),
         'result' => [
-            'response' => $feedbackvalue->value,
+            // 'response' => $feedbackvalue->value,
             'completion' => $feedbackvalue->value !== '',
             'extensions' => [
                 'http://learninglocker.net/xapi/cmi/numeric/response' => floatval($feedbackvalue->value),
