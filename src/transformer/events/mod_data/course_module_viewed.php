@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Transform for the data record created event.
+ * Transform for the data module viewed event.
  *
  * @package   logstore_xapi
  * @copyright Jerret Fowler <jerrett.fowler@gmail.com>
@@ -29,7 +29,7 @@ namespace src\transformer\events\mod_data;
 use src\transformer\utils as utils;
 
 /**
- * Transformer for data record created event.
+ * Transformer for data module viewed event.
  *
  * @param array $config The transformer config settings.
  * @param \stdClass $event The event to be transformed.
