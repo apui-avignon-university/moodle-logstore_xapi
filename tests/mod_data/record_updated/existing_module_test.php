@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace logstore_xapi\mod_data\course_module_viewed\existing_module;
+namespace logstore_xapi\mod_data\record_updated;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -23,7 +23,7 @@ global $CFG;
 require_once($CFG->dirroot . '/admin/tool/log/store/xapi/tests/xapi_test_case.php');
 
 /**
- * Unit test for mod_data module viewed event.
+ * Unit test for mod_data record updated event.
  *
  * @package   logstore_xapi
  * @copyright Jerret Fowler <jerrett.fowler@gmail.com>
