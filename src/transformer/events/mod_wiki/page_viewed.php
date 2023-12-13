@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Transform for the wiki page viewed event.
+ * Transform for the data record created event.
  *
  * @package   logstore_xapi
  * @copyright Jerret Fowler <jerrett.fowler@gmail.com>
@@ -29,7 +29,7 @@ namespace src\transformer\events\mod_wiki;
 use src\transformer\utils as utils;
 
 /**
- * Transformer for wiki page viewed event.
+ * Transformer for wiki page created event.
  *
  * @param array $config The transformer config settings.
  * @param \stdClass $event The event to be transformed.
@@ -40,7 +40,6 @@ function page_viewed(array $config, \stdClass $event) {
     $user = $repo->read_record_by_id('user', $event->userid);
     $course = $repo->read_record_by_id('course', $event->courseid);
     $page = $repo->read_record_by_id('wiki_pages', $event->objectid);
-    $subwiki = $repo->read_record_by_id('wiki_subwikis', $page->subwikiid);
     $lang = utils\get_course_lang($course);
 
     return[[
