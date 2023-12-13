@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Transform for the glossary module viewed event.
+ * Transform for the data record created event.
  *
  * @package   logstore_xapi
  * @copyright Jerret Fowler <jerrett.fowler@gmail.com>
@@ -29,7 +29,7 @@ namespace src\transformer\events\mod_glossary;
 use src\transformer\utils as utils;
 
 /**
- * Transformer for glossary module viewed event.
+ * Transformer for data record created event.
  *
  * @param array $config The transformer config settings.
  * @param \stdClass $event The event to be transformed.
@@ -39,7 +39,6 @@ function course_module_viewed(array $config, \stdClass $event) {
     $repo = $config['repo'];
     $user = $repo->read_record_by_id('user', $event->userid);
     $course = $repo->read_record_by_id('course', $event->courseid);
-    $record = $repo->read_record_by_id('folder', $event->objectid);
     $lang = utils\get_course_lang($course);
 
     return[[
